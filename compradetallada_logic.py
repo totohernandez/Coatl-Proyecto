@@ -15,7 +15,6 @@ class CompraDetLogic(Logic):
             compraObjList.append(newCompra)
         return compraObjList
 
-    # polimorfismo
     def createCompraDetObj(
         self, idcompra, tipo, precios_unitarios, cantidad, monto_total
     ):
@@ -24,10 +23,11 @@ class CompraDetLogic(Logic):
 
     def createCompraObj(self, userDict):
         compraObj = CompraDetObj(
-            userDict["user"],
-            userDict["password"],
-            userDict["email"],
-            userDict["id"],
+            userDict["tipo"],
+            userDict["precios_unitarios"],
+            userDict["cantidad"],
+            userDict["monto_total"],
+            userDict["idcompra"],
         )
         return compraObj
 
@@ -40,7 +40,9 @@ class CompraDetLogic(Logic):
         rows = database.executeNonQueryRows(sql)
         return rows
 
-    def updateCompraById(self, id, tipo, precios_unitarios, cantidad, monto_total):
+    def updateCompraById(
+        self, idcompra, tipo, precios_unitarios, cantidad, monto_total
+    ):
         database = self.database
         sql = (
             "UPDATE `cine`.`compradetallada` "
