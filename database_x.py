@@ -6,7 +6,7 @@ class DatabaseX:
         self.host = "localhost"
         self.user = "root"
         self.password = "12345"
-        self.database = "cine"
+        self.database = "dbcine"
         self.cursorType = pymysql.cursors.DictCursor
         self.connection = self.createConnection()
 
