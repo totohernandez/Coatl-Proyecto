@@ -45,28 +45,28 @@ def updateSucursal():
     idsucursal = int(input("Id de sucursal a actualizar: "))
     oldSucursal = logic.getSucursalById(idsucursal)
 
-    update = int(input("¿Actualizar Nombre? Si -1 No - 0 "))
+    update = int(input("¿Desea actualizar el nombre? Si - 1 No - 0 "))
     if update == 1:
         print(f"Nombre anterior: {oldSucursal['nombre']}")
-        nombre = input("nombre: ")
+        nombre = input("Ingrese el nuevo nombre de la película: ")
     else:
         nombre = oldSucursal["nombre"]
 
-    update = int(input("¿Actualizar departamento? Si -1 No - 0 "))
+    update = int(input("¿Desea actualizar el departamento? Si - 1 No - 0 "))
     if update == 1:
         print(f"Departamento anterior: {oldSucursal['departamento']}")
         departamento = input("departamento: ")
     else:
         departamento = oldSucursal.departamento
 
-    update = int(input("¿Actualizar direccion? Si -1 No - 0 "))
+    update = int(input("¿Desea actualizar la dirección? Si - 1 No - 0 "))
     if update == 1:
         print(f"Direccion anterior: {oldSucursal['direccion']}")
         direccion = input("direccion: ")
     else:
         direccion = oldSucursal["direccion"]
 
-    update = int(input("¿Actualizar IdUsuario? Si -1 No - 0 "))
+    update = int(input("¿Desea actualizar el id de usuario? Si - 1 No - 0 "))
     if update == 1:
         print(f"Usuario anterior: {oldSucursal['usuario_idusuario']}")
         usuario_idusuario = int(input("idusuario: "))
