@@ -11,24 +11,37 @@ class SucursalLogic(Logic):
         sucursalList = super().getAllRows(self.tableName)
         sucursalObjList = []
         for element in sucursalList:
-            newSucursal = self.createSucursalObj(element)
-            sucursalObjList.append(newSucursal)
+            # newSucursal = self.createSucursalObj(
+            #     element.nombre,
+            #     element.departamento,
+            #     element.direccion,
+            #     element.usuario_idusuario,
+            # )
+            # sucursalObjList.append(newSucursal)
+            sucursalObjList.append(element)
         return sucursalObjList
 
-    def createSucursalObj(
-        self, idsucursal, nombre, departamento, direccion, usuario_idusuario
-    ):
-        sucursalObj = sucursalObj(id, nombre, direccion, usuario_idusuario)
-        return sucursalObj
+    # def createSucursalObj(
+    #     self, idsucursal, nombre, departamento, direccion, usuario_idusuario
+    # ):
+    #     sucursalObj = sucursalObj(id, nombre, direccion, usuario_idusuario)
+    #     return sucursalObj
 
-    def createSucursalObj(self, sucursalDict):
-        sucursalObj = SucursalObj(
-            sucursalDict["nombre"],
-            sucursalDict["departamento"],
-            sucursalDict["direccion"],
-            sucursalDict["usuario_idusuario"],
+    def createSucursalObj(self, nombre, departamento, direccion, usuario_idusuario):
+        sucursalDict = dict(
+            nombre=nombre,
+            departamento=departamento,
+            direccion=direccion,
+            usuario_idusuario=usuario_idusuario,
         )
-        return sucursalObj
+        # sucursalObj = SucursalObj(
+        #     sucursalDict["nombre"],
+        #     sucursalDict["departamento"],
+        #     sucursalDict["direccion"],
+        #     sucursalDict["usuario_idusuario"],
+        # )
+        # return sucursalObj
+        return sucursalDict
 
     def insertSucursal(self, nombre, departamento, direccion, usuario_idusuario):
         database = self.database
@@ -36,18 +49,29 @@ class SucursalLogic(Logic):
             f"INSERT INTO `dbcine`.`sucursal`(`idsucursal`,`nombre`,`departamento`,`direccion`, `usuario_idusuario`) "
             + f"VALUES(0,'{nombre}','{departamento}','{direccion}','{usuario_idusuario}');"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
-    def updateSucursalById(self, nombre, departamento, direccion, usuario_idusuario):
+    def updateSucursalById(
+        self, idsucursal, nombre, departamento, direccion, usuario_idusuario
+    ):
         database = self.database
         sql = (
             "UPDATE `dbcine`.`sucursal` "
-            + f"SET `nombre` = '{nombre}', `departamento` = '{departamento}', `direccion` = '{direccion}', `usuario_idusuario` = '{usuario_idusuario}' "
-            + f"WHERE `idsucursal` = {id};"
+            + f"SET `nombre` = '{nombre}', `departamento` = '{departamento}', `direccion` = '{direccion}', `usuario_idusuario` = {usuario_idusuario} "
+            + f"WHERE `idsucursal` = {idsucursal};"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
+
+    def getSucursalById(self, idsucursal):
+        database = self.database
+        sql = "SELECT * FROM `dbcine`.`sucursal` " + f"where idsucursal ={idsucursal};"
+        sucursalDict = database.executeQueryOneRow(sql)
+        return sucursalDict
 
     def deleteSucursalById(self, idsucursal):
-        super().deleteRowById(id, self.tableName)
+        database = self.database
+        sql = "DELETE FROM `dbcine`.`sucursal` " + f"WHERE idsucursal = {idsucursal};"
+        row = database.executeNonQueryRows(sql)
+        return row

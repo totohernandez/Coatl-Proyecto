@@ -11,18 +11,18 @@ def viewAllSucursales():
         "Id",
         "Nombre",
         "Departamento",
-        "Direccion",
-        "usuario_idusuario",
+        "Dirección",
+        "Usuario_idusuario",
     ]
 
     for sucursal in sucursalObjList:
         table.add_row(
             [
-                sucursal.idsucursal,
-                sucursal.nombre,
-                sucursal.departamento,
-                sucursal.direccion,
-                sucursal.usuario_idusuario,
+                sucursal["idsucursal"],
+                sucursal["nombre"],
+                sucursal["departamento"],
+                sucursal["direccion"],
+                sucursal["usuario_idusuario"],
             ]
         )
     print(table)
@@ -30,52 +30,57 @@ def viewAllSucursales():
 
 def addSucursal():
     print("Ingrese nueva sucursal")
-    nombre = input("nombre:")
-    departamento = input("departamento:")
-    direccion = input("direccion:")
-    usuario_idusuario = input("idusuario: ")
+    nombre = input("Nombre sucursal:")
+    departamento = input("Departamento:")
+    direccion = input("Direccion:")
+    usuario_idusuario = input("IdUsuario: ")
 
     logic.createSucursalObj(nombre, departamento, direccion, usuario_idusuario)
     logic.insertSucursal(nombre, departamento, direccion, usuario_idusuario)
-    logic.getAllSucursales()
+    print("Sucursal creada con éxito")
 
 
 def updateSucursal():
     print("Actualice la sucursal")
-    id = int(input("Id de la sucursal a actualizar: "))
-    sucursal = logic.updateSucursalById(id)
+    idsucursal = int(input("Id de sucursal a actualizar: "))
+    oldSucursal = logic.getSucursalById(idsucursal)
 
     update = int(input("¿Actualizar Nombre? Si -1 No - 0 "))
     if update == 1:
-        print(f"Nombre anterior: {sucursal['nombre']}")
+        print(f"Nombre anterior: {oldSucursal['nombre']}")
         nombre = input("nombre: ")
     else:
-        nombre = sucursal["nombre"]
+        nombre = oldSucursal["nombre"]
 
-    update = int(input("Actualizar departamento? Si -1 No - 0 "))
+    update = int(input("¿Actualizar departamento? Si -1 No - 0 "))
     if update == 1:
-        print(f"Departamento anterior: {sucursal['departamento']}")
+        print(f"Departamento anterior: {oldSucursal['departamento']}")
         departamento = input("departamento: ")
     else:
-        departamento = sucursal["departamento"]
+        departamento = oldSucursal.departamento
 
-    update = int(input("Actualizar direccion? Si -1 No - 0 "))
+    update = int(input("¿Actualizar direccion? Si -1 No - 0 "))
     if update == 1:
-        print(f"Direccion anterior: {sucursal['direccion']}")
+        print(f"Direccion anterior: {oldSucursal['direccion']}")
         direccion = input("direccion: ")
     else:
-        direccion = sucursal["direccion"]
+        direccion = oldSucursal["direccion"]
 
-    update = int(input("Actualizar idusuario? Si -1 No - 0 "))
+    update = int(input("¿Actualizar IdUsuario? Si -1 No - 0 "))
     if update == 1:
-        print(f"Usuario anterior: {sucursal['usuario_idusuario']}")
-        direccion = input("idusuario: ")
+        print(f"Usuario anterior: {oldSucursal['usuario_idusuario']}")
+        usuario_idusuario = int(input("idusuario: "))
     else:
-        direccion = sucursal["usuario_idusuario"]
+        usuario_idusuario = oldSucursal["usuario_idusuario"]
+
+    sucursal = logic.updateSucursalById(
+        idsucursal, nombre, departamento, direccion, usuario_idusuario
+    )
+    print("La información de la sucursal ha sido actualizada")
 
 
 def deleteSucursal():
     print("Eliminar sucursal")
-    id = int(input("Id de la sucursal a eliminar: "))
-
-    logic.deleteSucursalById(id)
+    idsucursal = int(input("Id de sucursal a eliminar: "))
+    logic.deleteSucursalById(idsucursal)
+    print("Sucursal eliminada con éxito")
