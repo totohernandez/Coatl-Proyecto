@@ -18,6 +18,7 @@ class BoletoLogic(Logic):
     def createBoletoObj(
         self,
         idboleto,
+        tipo,
         fecha,
         hora,
         compradetallada_idcompra,
@@ -26,6 +27,7 @@ class BoletoLogic(Logic):
     ):
         boletoObj = BoletoObj(
             id,
+            tipo,
             fecha,
             hora,
             compradetallada_idcompra,
@@ -34,31 +36,21 @@ class BoletoLogic(Logic):
         )
         return boletoObj
 
-    def createBoletoObj(self, userDict):
+    def createBoletoObj(self, boletoDict):
         boletoObj = BoletoObj(
-            userDict["fecha"],
-            userDict["hora"],
-            userDict["compradetallada_idcompra"],
-            userDict["sala_idsala"],
-            userDict["peliculas_idpeliculas"],
-            userDict["idboleto"],
+            boletoDict["tipo"],
+            boletoDict["fecha"],
+            boletoDict["hora"],
+            boletoDict["compradetallada_idcompra"],
+            boletoDict["sala_idsala"],
+            boletoDict["peliculas_idpeliculas"],
+            boletoDict["idboleto"],
         )
         return boletoObj
 
     def insertBoleto(
-        self, fecha, hora, compradetallada_idcompra, sala_idsala, peliculas_idpeliculas
-    ):
-        database = self.database
-        sql = (
-            f"INSERT INTO `cine`.`boleto`(`idboleto`,`fecha`,`hora`, `compradetallada_idcompra`, `sala_idsala`, `peliculas_idpeliculas`) "
-            + f"VALUES(0,'{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}');"
-        )
-        rows = database.executeNonQueryRows(sql)
-        return rows
-
-    def updateBoletoById(
         self,
-        idboleto,
+        tipo,
         fecha,
         hora,
         compradetallada_idcompra,
@@ -67,8 +59,26 @@ class BoletoLogic(Logic):
     ):
         database = self.database
         sql = (
-            "UPDATE `cine`.`boleto` "
-            + f"SET `boleto` = '{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}' "
+            f"INSERT INTO `dbcine`.`boleto`(`idboleto`,`tipo`,`fecha`,`hora`, `compradetallada_idcompra`, `sala_idsala`, `peliculas_idpeliculas`) "
+            + f"VALUES(0,'{tipo}','{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}');"
+        )
+        rows = database.executeNonQueryRows(sql)
+        return rows
+
+    def updateBoletoById(
+        self,
+        idboleto,
+        tipo,
+        fecha,
+        hora,
+        compradetallada_idcompra,
+        sala_idsala,
+        peliculas_idpeliculas,
+    ):
+        database = self.database
+        sql = (
+            "UPDATE `dbcine`.`boleto` "
+            + f"SET `boleto` = '{tipo}','{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}' "
             + f"WHERE `idboleto` = {id};"
         )
         rows = database.executeNonQueryRows(sql)

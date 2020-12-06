@@ -1,5 +1,6 @@
 class BoletoObj:
-    def __init__(self, fecha, hora, idboleto=0):
+    def __init__(self, tipo, fecha, hora, idboleto=0):
+        self.tipo = tipo
         self.fecha = fecha
         self.hora = hora
         self.compradetallada_idcompra = compradetallada_idcompra
